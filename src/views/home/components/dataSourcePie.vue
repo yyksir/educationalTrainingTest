@@ -1,58 +1,122 @@
 <template>
-    <div style="width:100%;height:100%;" id="data_source_con"></div>
+	<Row>
+		<i-col span="6">
+			<div style="width:100%;height:300px;line-height: 300px;text-align: center;font-size: 20px;">12</div>
+		</i-col>
+		<i-col span="6">
+			<div style="width:100%;height:300px;" id="data_source_con"></div>
+		</i-col>
+		<i-col span="6">
+			<div style="width:100%;height:300px;line-height: 300px;text-align: center;font-size: 20px;">12</div>
+		</i-col>
+		<i-col span="6">
+			<div style="width:100%;height:300px" id="data_source_con1"></div>
+		</i-col>
+	</Row>
+
 </template>
 
 <script>
-import echarts from 'echarts';
+	import echarts from 'echarts';
 
-export default {
-    name: 'dataSourcePie',
-    data () {
-        return {
-            //
-        };
-    },
-    mounted () {
-        this.$nextTick(() => {
-            var dataSourcePie = echarts.init(document.getElementById('data_source_con'));
-            const option = {
-                tooltip: {
-                    trigger: 'item',
-                    formatter: '{a} <br/>{b} : {c} ({d}%)'
-                },
-                legend: {
-                    orient: 'vertical',
-                    left: 'right',
-                    data: ['ios', 'android', 'pc', 'web', 'others']
-                },
-                series: [
-                    {
-                        name: '访问来源',
-                        type: 'pie',
-                        radius: '66%',
-                        center: ['50%', '60%'],
-                        data: [
-                            {value: 2103456, name: 'ios', itemStyle: {normal: {color: '#9bd598'}}},
-                            {value: 1305923, name: 'android', itemStyle: {normal: {color: '#ffd58f'}}},
-                            {value: 543250, name: 'pc', itemStyle: {normal: {color: '#abd5f2'}}},
-                            {value: 798403, name: 'web', itemStyle: {normal: {color: '#ab8df2'}}},
-                            {value: 302340, name: 'others', itemStyle: {normal: {color: '#e14f60'}}}
-                        ],
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-            dataSourcePie.setOption(option);
-            window.addEventListener('resize', function () {
-                dataSourcePie.resize();
-            });
-        });
-    }
-};
+	export default {
+		name: 'dataSourcePie',
+		data() {
+			return {
+				//
+			};
+		},
+		mounted() {
+			this.$nextTick(() => {
+				var dataSourcePie = echarts.init(document.getElementById('data_source_con'));
+				var option = {
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b}: {c} ({d}%)"
+					},
+					series: [{
+						name: '访问来源',
+						type: 'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
+							},
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '15',
+									fontWeight: 'bold'
+								}
+							}
+						},
+						labelLine: {
+							normal: {
+								show: false
+							}
+						},
+						data: [{
+								value: 35,
+								name: '访问人数'
+							},
+							{
+								value: 5,
+								name: '未访问人数'
+							},
+						]
+					}]
+				};
+				dataSourcePie.setOption(option);
+				window.addEventListener('resize', function() {
+					dataSourcePie.resize();
+				});
+				var dataSourcePie1 = echarts.init(document.getElementById('data_source_con1'));
+				var option2 = {
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b}: {c} ({d}%)"
+					},
+					series: [{
+						name: '播放来源',
+						type: 'pie',
+						radius: ['50%', '70%'],
+						avoidLabelOverlap: false,
+						label: {
+							normal: {
+								show: false,
+								position: 'center'
+							},
+							emphasis: {
+								show: true,
+								textStyle: {
+									fontSize: '15',
+									fontWeight: 'bold'
+								}
+							}
+						},
+						labelLine: {
+							normal: {
+								show: false
+							}
+						},
+						data: [{
+								value: 35,
+								name: '播放次数'
+							},
+							{
+								value: 5,
+								name: '未播放次数'
+							},
+						]
+					}]
+				};
+				dataSourcePie1.setOption(option2);
+				window.addEventListener('resize', function() {
+					dataSourcePie1.resize();
+				});
+			});
+		}
+	};
 </script>
