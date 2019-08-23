@@ -13,8 +13,8 @@
                     :open-names="openedSubmenuArr"
                     :menu-list="menuList">
                     <div slot="top" class="logo-con">
-                        <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
-                        <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
+                        <img v-show="!shrink"  src="../images/logo@2x.png" key="max-logo" />
+                        <img v-show="shrink" src="../images/logo-small.jpg" key="min-logo" />
                     </div>
                 </shrinkable-menu>
             </scroll-bar>
@@ -53,9 +53,6 @@
                         </Row>
                     </div>
                 </div>
-            </div>
-            <div class="tags-con">
-                <tags-page-opened :pageTagsList="pageTagsList"></tags-page-opened>
             </div>
         </div>
         <div class="single-page-con" :style="{left: shrink?'60px':'200px'}">
