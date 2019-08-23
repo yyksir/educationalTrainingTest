@@ -85,5 +85,14 @@ module.exports = {
             'vue': 'vue/dist/vue.esm.js',
             '@': resolve('../src'),
         }
+    },
+    devServer: {
+        proxy: {
+            '/api': {
+                target: 'http://192.168.100.107:8085/online-study', //后台服务器的ip地址
+                pathRewrite: { '^/api': '/' },
+                changeOrigin: true
+            }
+        }
     }
 };

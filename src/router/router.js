@@ -56,9 +56,11 @@ export const otherRouter = {
     redirect: '/home',
     component: Main,
     children: [
-        { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/home/home.vue') },
-//      { path: 'ownspace', title: '个人中心', name: 'ownspace_index', component: () => import('@/views/own-space/own-space.vue') },
-//      { path: 'order/:order_id', title: '订单详情', name: 'order-info', component: () => import('@/views/advanced-router/component/order-info.vue') }, // 用于展示动态路由
+        { path: 'home', title: {i18n: 'home'}, name: 'home_index', component: () => import('@/views/resourcelibrary/index.vue')},
+        { path: 'addVideoAndppt', title: '添加视频ppt', name: 'addvideo', component: () => import('@/views/resourcelibrary/addVideoAndppt.vue') },
+        { path: 'addTopic', title: '个人中心', name: 'addItem', component: () => import('@/views/resourcelibrary/addTopic.vue') },
+        { path: 'testList', title: '考试列表', name: 'testList', component: () => import('@/views/test/goTest.vue') }, 
+        { path: 'testCertification', title: '考试认证', name: 'testCertification', component: () => import('@/views/test/testCertification.vue') }, 
 //      { path: 'shopping', title: '购物详情', name: 'shopping', component: () => import('@/views/advanced-router/component/shopping-info.vue') }, // 用于展示带参路由
 //      { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
     ]
@@ -74,11 +76,12 @@ export const appRouter = [
         component: Main,
         children: [
             {
-                path: 'text-editor1',
+                path: 'resourcelibrary',
                 icon: 'compose',
-                name: 'text-editor',
+                name: 'resourcelibrary',
                 title: '资源库',
-                component: () => import('@/views/my-components/text-editor/text-editor.vue')
+                keepalive: false,
+                component: () => import('@/views/resourcelibrary/index.vue')
             },
         ]
     },
@@ -99,7 +102,7 @@ export const appRouter = [
         title: '考试',
         component: Main,
         children: [
-            { path: 'dragableTable', title: '考试', name: 'dragable-table', icon: 'arrow-move', component: () => import('@/views/tables/dragable-table.vue') },
+            { path: 'dragableTable', title: '考试', name: 'dragable-table', icon: 'arrow-move', component: () => import('@/views/test/list.vue') },
         ]
     },
 ];
