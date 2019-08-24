@@ -15,7 +15,7 @@
 
         </div>
         <div class="addTopic1">
-            <i-button type="primary">
+            <i-button type="primary" @click="handleUplaodExcel">
                 下载EXECL格式模板
                 <Icon type="arrow-down-a"></Icon>
             </i-button>
@@ -28,15 +28,16 @@
         <div class="addTopic1">
             <h1>导入试题</h1>
             <div>
-                    <i-button type="primary">
+                    <!-- <i-button type="primary">
                         下载EXECL格式模板
                         <Icon type="arrow-down-a"></Icon>
-                    </i-button>
-                <!-- <Upload
+                    </i-button> -->
+                <Upload
                     multiple
-                    action="//jsonplaceholder.typicode.com/posts/">
-                    <i-button type="ghost" icon="ios-cloud-upload-outline">上传文件</i-button>
-                </Upload> -->
+                    accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    action="http://192.168.100.222:9910/api/upload/fms" :on-success="handleGetSuccess">
+                    <i-button type="ghost" icon="ios-cloud-upload-outline">选择文件并上传</i-button>
+                </Upload>
             </div>
         </div>
     </div>
@@ -53,6 +54,41 @@ export default {
 
     },
     methods:{
+        handleGetSuccess(response, file, fileList) {
+            let data ={
+                user_id:'1',
+                source_name:"11",
+                exam_subject:'',
+                exam_type:'',
+                exam_level:'11',
+                key:response.url
+
+            }
+                // "user_id":"***",                                  //账号id-当前登录人的账号id，必须
+                // "source_name":"***",                                  //文件名称
+                // "exam_subject":"***",                                  //学科类型
+                // "exam_type":"***",                                  //文件分类
+                // "exam_level":"***",                                  //文件等级
+                // "key":"***"                                            //文件key
+           // }         
+            this.$axios({
+                url: '/api/examLibrary/uploadSchedulingFile',
+                method: 'post',
+                data: data,
+            }).then((res)=>{
+                this.$Message.success(res.data.Result);
+                // this.name='',
+                // this.label='',
+                // this.classification='',
+                // this.grade='',
+                console.log(res)
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        handleUplaodExcel() {
+            
+        }
 
     }
     
