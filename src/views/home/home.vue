@@ -19,7 +19,7 @@
 			</Col>
 		</Row>
 		<Row>
-			<i-col span="12">
+			<i-col span="24">
 				<Card :padding="0">
 					<p slot="title" class="card-title">
 						<Icon type="map"></Icon>
@@ -40,22 +40,6 @@
 						</i-col>
 					</Row>
 					<data-source-pie></data-source-pie>
-				</Card>
-			</i-col>
-			<i-col span="6">
-				<Card :padding="0">
-					<p slot="title" class="card-title">
-						<Icon type="map"></Icon>
-						用户参与度分析
-					</p>
-				</Card>
-			</i-col>
-			<i-col span="6">
-				<Card :padding="0">
-					<p slot="title" class="card-title">
-						<Icon type="map"></Icon>
-						用户活跃度分析
-					</p>
 				</Card>
 			</i-col>
 		</Row>

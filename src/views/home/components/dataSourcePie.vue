@@ -1,13 +1,13 @@
 <template>
 	<Row>
 		<i-col span="6">
-			<div style="width:100%;height:300px;line-height: 300px;text-align: center;font-size: 20px;">12</div>
+			<div style="width:100%;height:300px;line-height: 300px;text-align: center;font-size: 20px;">22(次)</div>
 		</i-col>
 		<i-col span="6">
 			<div style="width:100%;height:300px;" id="data_source_con"></div>
 		</i-col>
 		<i-col span="6">
-			<div style="width:100%;height:300px;line-height: 300px;text-align: center;font-size: 20px;">12</div>
+			<div style="width:100%;height:300px;line-height: 300px;text-align: center;font-size: 20px;">15(次)</div>
 		</i-col>
 		<i-col span="6">
 			<div style="width:100%;height:300px" id="data_source_con1"></div>
@@ -58,11 +58,11 @@
 							}
 						},
 						data: [{
-								value: 35,
+								value: 15,
 								name: '访问人数'
 							},
 							{
-								value: 5,
+								value: 2,
 								name: '未访问人数'
 							},
 						]
@@ -102,7 +102,7 @@
 							}
 						},
 						data: [{
-								value: 35,
+								value: 20,
 								name: '播放次数'
 							},
 							{
