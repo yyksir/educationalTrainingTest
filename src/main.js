@@ -12,7 +12,6 @@ import axios from 'axios';
 import qs from 'qs';
 axios.defaults.headers.post['Content-Type'] = 'application/json,charset=utf-8';
 axios.defaults.timeout = 1000 * 60 * 60 * 24;
-//axios.defaults.baseURL = 'http://192.168.100.107:8085/online-study'; // http://192.168.100.107:7777 //http://192.168.100.107:8085/online-study
 
 Vue.use(VueI18n);
 Vue.use(iView);

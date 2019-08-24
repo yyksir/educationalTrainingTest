@@ -2,10 +2,10 @@
 <div class="list">
     <div class="listTitle">
         <div class="listTitleTab">
-            <Tabs active-key="key1">
-                <Tab-pane label="培训完成" key="key1"></Tab-pane>
-                <Tab-pane label="进行中" key="key2"></Tab-pane>
-                <Tab-pane label="认证" key="key3"></Tab-pane>
+            <Tabs active-key="key1" @on-click="handleGetTab">
+                <Tab-pane label="培训完成" key="1"></Tab-pane>
+                <Tab-pane label="进行中" key="2"></Tab-pane>
+                <Tab-pane label="认证" key="3"></Tab-pane>
             </Tabs>
         </div>
         <div class="listSearch">
@@ -13,27 +13,63 @@
         </div>
     </div>
     <div class="listTable">
-        <div class="listItem" >
-            <div class="listItemPublic picBox">
-                <img src="" alt="" srcset="" class="pic">
+        <template v-if="tabKey==2">
+            <div class="listItem" v-for="item in AuthList" :key="item.id" >
+                <div class="listItemPublic picBox">
+                    <img src="" alt="" srcset="" class="pic">
+                </div>
+                <div class="listItemPublic title" >
+                    <h4>{{item.title}}</h4>
+                    <p>{{item.desc}}</p>
+                </div>
+                <div class="listItemPublic studyPro" >  
+                    {{item.record}}    
+                </div>
+                <div class="listItemPublic studySlider">
+                    <Rate :value.sync="item.level" disabled></Rate>
+                    <!-- <Progress :percent="parseInt(item.study_progress)>100?100:parseInt(item.study_progress)" status="active"></Progress> -->
+                </div>
+                <div class="listItemPublic studyAction">
+                    <!-- <i-button type="primary" v-show="parseInt(item.study_progress)>100">
+                            开始考试
+                    </i-button> -->
+                    <i-button type="primary" v-show="tabKey==2" @click="handleGoTest(item)">
+                            重新考试
+                    </i-button>
+                    <i-button type="primary" v-show="tabKey==2">
+                            查看认证
+                    </i-button>
+                </div>
             </div>
-            <div class="listItemPublic title" >
-                <h4>PHP初级考试</h4>
-                <p>一段假想的简介，这是一段比较长的简介</p>
+        </template>
+        <template v-else>
+            <div class="listItem" v-for="item in totalList" :key="item.c_id" >
+                <div class="listItemPublic picBox">
+                    <img src="" alt="" srcset="" class="pic">
+                </div>
+                <div class="listItemPublic title" >
+                    <h4>{{item.c_title}}</h4>
+                    <p>{{item.c_describe}}</p>
+                </div>
+                <div class="listItemPublic studyPro" >  
+                    学习进度    
+                </div>
+                <div class="listItemPublic studySlider">
+                    <Progress :percent="parseInt(item.study_progress)>100?100:parseInt(item.study_progress)" status="active"></Progress>
+                </div>
+                <div class="listItemPublic studyAction">
+                    <i-button type="primary" v-show="parseInt(item.study_progress)>=100" @click="handleGoTest(item)">
+                            开始考试
+                    </i-button>
+                    <!-- <i-button type="primary" v-show="tabKey==2">
+                            重新考试
+                    </i-button>
+                    <i-button type="primary" v-show="tabKey==2">
+                            查看认证
+                    </i-button> -->
+                </div>
             </div>
-            <div class="listItemPublic studyPro">  
-                学习进度    
-            </div>
-            <div class="listItemPublic studySlider">
-                <Slider :value="11" :tip-format="format"></Slider>
-            </div>
-            <div class="listItemPublic studyAction">
-                  <i-button type="primary">
-                    开始考试
-                </i-button>
-            </div>
-        </div>
-
+        </template>
     </div>
     
 </div>
@@ -44,40 +80,68 @@ export default {
     name:"list",
     data(){
         return {
+            tabKey:0,
             listSearch:'',
             totalList:[],
+            AuthList:[],
         }
     },
     mounted() {
         this.getList();
-        // getTableData().then(res => {
-        //     this.tableData = res.data
-        // }).catch(err => {
-        //     console.log(err)
-        // })
     },
     methods:{
-        format (val) {
-            return '进度' + val + '%';
+        handleGetTab(key) {
+            this.tabKey = key;
+            if(key==2) {
+                this.queryAuthListByUserId()
+            }else{
+                this.getList()
+            }
+            console.log(key)
         },
         getList() {
-             this.$axios({
-                    url: '/api/examManager/queryExamListByUserId',
-                    method: 'post',
-                    data: {
-                        person_id:"1",                              //人员id，必须
-                        user_id:"",                                  //账号id-当前登录人的账号id，必须  
-                        flag:"1",                                     //0-培训完成,1-进行中
-                        search_name:this.listSearch,                               //输入的搜索名称
-                        page:"1",                                  //分页页码，必须  
-                        pageSize:"20"                                 //分页条数，必须  
-                    }
-                }).then((res)=>{
-                    this.totalList = res.data.Content;
-                    console.log(res.data)
-                }).catch(function(err){
-                    console.log(err);
-                })
+            this.$axios({
+                url: '/api/examManager/queryExamListByUserId',
+                method: 'post',
+                data: {
+                    person_id:"1",                              //人员id，必须
+                    user_id:"",                                  //账号id-当前登录人的账号id，必须  
+                    flag:this.tabKey,                                     //0-培训完成,1-进行中
+                    search_name:this.listSearch,                               //输入的搜索名称
+                    page:"1",                                  //分页页码，必须  
+                    pageSize:"20"                                 //分页条数，必须  
+                }
+            }).then((res)=>{
+                this.totalList = res.data.Content;
+                console.log(res.data)
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        queryAuthListByUserId() {
+            this.$axios({
+                url: '/api/examManager/queryAuthListByUserId',
+                method: 'post',
+                data: {
+                    person_id:"1",                              //人员id，必须
+                    user_id:"",                                  //账号id-当前登录人的账号id，必须  
+                    flag:"0",                                     //0-培训完成,1-进行中
+                    search_name:this.listSearch,                               //输入的搜索名称
+                    page:"1",                                  //分页页码，必须  
+                    pageSize:"20"                                 //分页条数，必须  
+                }
+            }).then((res)=>{
+                this.AuthList = res.data.Content;
+                console.log(res.data)
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        handleGoTest(item) {
+            this.$router.push({
+                name: "testList",
+                query: { order: JSON.stringify(item)}
+            });
         }
     }
     

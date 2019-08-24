@@ -12,19 +12,19 @@
                 <div class="boxContentConditionBox">
                     <div class="boxContentlitem">
                         <span>文件名称</span>
-                        <i-input :value.sync="name" placeholder="请输入..." style="width: 300px"></i-input>
+                        <i-input :value.sync="name" placeholder="请输入文件名称" style="width: 300px"></i-input>
                     </div>
                     <div class="boxContentlitem">
                         <span>学科类型</span>
-                        <i-input :value.sync="label" placeholder="请输入..." style="width: 300px"></i-input>
+                        <i-input :value.sync="label" placeholder="请输入学科类型" style="width: 300px"></i-input>
                     </div>
                     <div class="boxContentlitem">
                         <span>文件分类</span>
-                        <i-input :value.sync="classification" placeholder="请输入..." style="width: 300px"></i-input>
+                        <i-input :value.sync="classification" placeholder="请输入文件分类" style="width: 300px"></i-input>
                     </div>
                     <div class="boxContentlitem">
                         <span>文件等级</span>
-                        <i-input :value.sync="grade" placeholder="请输入..." style="width: 300px"></i-input>
+                        <i-input :value.sync="grade" placeholder="请输入文件等级" style="width: 300px"></i-input>
                     </div> 
                 </div>
                 <div class="boxContentConditionBoxCheck">
@@ -75,39 +75,87 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '姓名',
+                    title: '发送人',
                     key: 'name'
                 },
                 {
-                    title: '年龄',
-                    key: 'age'
+                    title: '发送时间',
+                    key: 'sendTime'
                 },
                 {
-                    title: '地址',
-                    key: 'address'
+                    title: '文件类型',
+                    key: 'fileLabel'
+                },
+                {
+                    title: '视频名称',
+                    key: 'videoName'
+                },
+                {
+                    title: '大类',
+                    key: 'bigClass'
+                },
+                {
+                    title: '浏览次数',
+                    key: 'BrowseNumber'
+                },
+                {
+                    title: '学习次数',
+                    key: 'studyNumber'
+                },
+                {
+                    title: '评价次数',
+                    key: 'ratenuber'
+                },
+                {
+                    title: '课程分数',
+                    key: 'score'
                 }
             ],
             data1: [
                 {
-                    name: '王小明',
-                    age: 18,
-                    address: '北京市朝阳区芍药居'
+                    name: '管理员',
+                    sendTime:'2019.08.24',
+                    fileLabel:"视频",
+                    videoName:'111',
+                    bigClass:"111",
+                    BrowseNumber:'11',
+                    studyNumber:'111',
+                    ratenuber:'5',
+                    score:'98',
                 },
                 {
-                    name: '张小刚',
-                    age: 25,
-                    address: '北京市海淀区西二旗'
+                    name: '管理员',
+                    sendTime:'2019.08.24',
+                    fileLabel:"视频",
+                    videoName:'111',
+                    bigClass:"111",
+                    BrowseNumber:'11',
+                    studyNumber:'111',
+                    ratenuber:'5',
+                    score:'98',
                 },
                 {
-                    name: '李小红',
-                    age: 30,
-                    address: '上海市浦东新区世纪大道'
+                    name: '管理员',
+                    sendTime:'2019.08.24',
+                    fileLabel:"视频",
+                    videoName:'111',
+                    bigClass:"111",
+                    BrowseNumber:'11',
+                    studyNumber:'111',
+                    ratenuber:'5',
+                    score:'97',
                 },
-                {
-                    name: '周小伟',
-                    age: 26,
-                    address: '深圳市南山区深南大道'
-                }
+               {
+                    name: '管理员',
+                    sendTime:'2019.08.24',
+                    fileLabel:"视频",
+                    videoName:'111',
+                    bigClass:"111",
+                    BrowseNumber:'11',
+                    studyNumber:'111',
+                    ratenuber:'5',
+                    score:'60',
+                },
             ],
         }
     },
@@ -132,18 +180,28 @@ export default {
             //     "click_volume":"***"                                //点击量
             //     } 
             this.$axios({
-                    url: '/saas/restPersonService/queryPersonListByPositionIds',
+                    url: '/api/studyLibrary/queryLibrary',
                     method: 'post',
                     data: {
-                        page: 1,
-                        page_size: 10,
-                        pd: "e10adc3949ba59abbe56e057f20f883e",
-                        person_id: "RY91885782044b4abeb426d5dd9111d80a",
-                        project_id: "Pj6105020001",
-                        user_id: "7445ae8a-e1c4-469f-9910-190ac2611e4f",
+                         user_id:"1",
                     }
                 }).then((res)=>{
+                    this.data1 = [];
+                    res.data.Content.forEach((element,index) => {
+                        let ovj ={}
+                        ovj.name= '管理员',
+                        ovj.sendTime=element.create_time||"201908.24",
+                        ovj.fileLabel=element.source_file||'视频',
+                        ovj.videoName=element.source_file||'视频',
+                        ovj.bigClass=element.stu_name||"11",
+                        ovj.BrowseNumber='11'||"11",
+                        ovj.studyNumber='111'||"11",
+                        ovj.ratenuber=element.stu_level||"11",
+                        ovj.score='60',
+                       this.data1.push(ovj);
+                    });
                     console.log(res)
+                    console.log(this.data1)
                 }).catch(function(err){
                     console.log(err);
                 })
@@ -155,6 +213,11 @@ export default {
                 this.$router.push('/addVideoAndppt');
             }
             console.log(name)
+        }
+    },
+    watch: {
+        '$route' (to, from) {
+            this.getlist(); 
         }
     }
 }
