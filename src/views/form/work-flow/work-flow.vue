@@ -65,7 +65,7 @@
 							</Col>
 						</Row>
 					</FormItem>
-					<FormItem label="时长（分钟）" prop="contime">
+					<FormItem label="时长（秒）" prop="contime">
 						<Row>
 							<Col span="10">
 							<Input v-model="formValidate.contime" placeholder="请输入时长"></Input>
@@ -205,6 +205,8 @@
 					}
 				}).then((res) => {
 					this.$Message.info('新增成功');
+					 this.$store.commit('removeTag', 'addlearn');
+                this.$store.commit('closePage', 'addlearn');
 					this.$router.push({
 						name: 'form',
 					});
