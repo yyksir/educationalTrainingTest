@@ -19,7 +19,7 @@
                 下载EXECL格式模板
                 <Icon type="arrow-down-a"></Icon>
             </i-button>
-             <i-button type="primary">
+             <i-button type="primary" @click="handleUplaodExcel">
                 下载Word格式模板
                 <Icon type="arrow-down-a"></Icon>
             </i-button>
@@ -43,6 +43,16 @@
     </div>
 </template>
 <script>
+const downloadFile = (url) => {
+  const downloadLink = document.createElement('a');
+  const body = document.documentElement || document.body;
+  body.appendChild(downloadLink);
+  downloadLink.href = url;
+  downloadLink.download = true;
+
+  downloadLink.click();
+  body.removeChild(downloadLink);
+}
 export default {
     name:'addtopic',
     data(){
@@ -87,8 +97,9 @@ export default {
             })
         },
         handleUplaodExcel() {
-            
+             downloadFile('http://192.168.100.222:9910/api/upload/fms/15666458469414极客五组-试题导入模板.xlsx');
         }
+
 
     }
     
