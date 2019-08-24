@@ -53,7 +53,7 @@ module.exports = merge(webpackBaseConfig, {
 //         stats:{color:true},        
 //         proxy:{            
 //             '/api':{           //接口请求格式：/api/user/login
-//                 target:'http://192.168.100.107:8085/online-study',//接口服务器域名
+//                 target:'192.168.100.39:8085',//接口服务器域名
 //                 changeOrigin:true,            
 //                 pathReWrite:{'^/api':'/'}                
 //             }        

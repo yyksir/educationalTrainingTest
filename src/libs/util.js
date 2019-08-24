@@ -17,7 +17,7 @@ util.title = function (title, vm) {
 const ajaxUrl = env === 'development'
     ? 'http://127.0.0.1:8080'
     : env === 'production'
-        ? 'http://192.168.100.107:8085/online-study'
+        ? 'http://47.93.132.7:9000/online-study'
         : 'https://debug.url.com';
 
 util.ajax = axios.create({

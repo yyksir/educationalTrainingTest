@@ -15,13 +15,13 @@
 						<Row>
 							<Col span="3">
 							<FormItem prop="date">
-								<DatePicker type="date" placeholder="Select date" v-model="formValidate.date"></DatePicker>
+								<DatePicker type="datetime" placeholder="请选择开始时间" v-model="formValidate.date"></DatePicker>
 							</FormItem>
 							</Col>
 							<Col span="2" style="text-align: center">结束时间</Col>
 							<Col span="5">
 							<FormItem prop="time">
-								<DatePicker type="date" placeholder="Select data" v-model="formValidate.time"></DatePicker>
+								<DatePicker type="datetime" placeholder="请选择结束时间" v-model="formValidate.time"></DatePicker>
 							</FormItem>
 							</Col>
 						</Row>
@@ -51,9 +51,7 @@
 						<Row>
 							<Col span="10">
 							<Select v-model="formValidate.glwj" placeholder="选择关联的文件">
-								<Option value="beijing">New York</Option>
-								<Option value="shanghai">London</Option>
-								<Option value="shenzhen">Sydney</Option>
+								<Option v-for="item in wjlist" :value="item.stu_id" :key="item.stu_id">{{ item.stu_name }}</Option>
 							</Select>
 							</Col>
 						</Row>
@@ -62,10 +60,15 @@
 						<Row>
 							<Col span="10">
 							<Select v-model="formValidate.glsj" placeholder="选择关联的试卷">
-								<Option value="beijing">New York</Option>
-								<Option value="shanghai">London</Option>
-								<Option value="shenzhen">Sydney</Option>
+								<Option v-for="item in sjlist" :value="item.source_name" :key="item.source_name">{{ item.source_name }}</Option>
 							</Select>
+							</Col>
+						</Row>
+					</FormItem>
+					<FormItem label="时长（分钟）" prop="contime">
+						<Row>
+							<Col span="10">
+							<Input v-model="formValidate.contime" placeholder="请输入时长"></Input>
 							</Col>
 						</Row>
 					</FormItem>
@@ -73,7 +76,7 @@
 						<Row>
 							<Col span="10">
 							<Select v-model="formValidate.person" multiple placeholder="选择人员">
-								<Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+								<Option v-for="item in personlist" :value="item.id" :key="item.id">{{ item.name }}</Option>
 							</Select>
 							</Col>
 						</Row>
@@ -93,40 +96,33 @@
 		name: 'workflow',
 		data() {
 			return {
-				cityList: [{
-						value: 'New York',
-						label: 'New York'
-					},
-					{
-						value: 'London',
-						label: 'London'
-					},
-					{
-						value: 'Sydney',
-						label: 'Sydney'
-					},
-					{
-						value: 'Ottawa',
-						label: 'Ottawa'
-					},
-					{
-						value: 'Paris',
-						label: 'Paris'
-					},
-					{
-						value: 'Canberra',
-						label: 'Canberra'
-					}
-				],
+				personlist: [{
+					id: 'RY9cbc786de1754b90a9ab915be30764dc',
+					name: '赖星其'
+				}, {
+					id: 'RY6e82de377e024c6a89e3132c096d68b0',
+					name: '王永存'
+				}, {
+					id: 'RY6e7c8ae47ccb443ebcda04b5fc622ad3',
+					name: '王咏梅'
+				}],
+				wjlist: [],
+				sjlist: [],
 				formValidate: {
 					name: '',
 					city: '',
 					date: '',
 					time: '',
 					teacher: '',
-					person: []
+					person: [],
+					contime: ''
 				},
 				ruleValidate: {
+					contime: [{
+						required: true,
+						message: '时长不能为空',
+						trigger: 'blur'
+					}],
 					name: [{
 						required: true,
 						message: '名称不能为空',
@@ -147,12 +143,12 @@
 						message: '请选择关联的试卷',
 						trigger: 'change'
 					}],
-					person: [{
-						required: true,
-						message: '请选择人员',
-						type: 'array',
-						trigger: 'change'
-					}],
+					//					person: [{
+					//						required: true,
+					//						message: '请选择人员',
+					//						type: 'array',
+					//						trigger: 'change'
+					//					}],
 					date: [{
 						required: true,
 						type: 'date',
@@ -185,18 +181,97 @@
 			handleSubmit(name) {
 				this.$refs[name].validate((valid) => {
 					if(valid) {
-						this.$Message.success('Success!');
+						this.addLearn()
 					} else {
 						this.$Message.error('Fail!');
 					}
 				})
 			},
+			//添加培训
+			addLearn() {
+				this.$axios({
+					url: '/api/train/add',
+					method: 'post',
+					data: {
+						"c_start_time": this.formValidate.date, // 开始时间
+						"c_end_time": this.formValidate.time, // 结束时间
+						"c_title": this.formValidate.name,
+						"c_describe": this.formValidate.desc,
+						"c_lecturer": this.formValidate.teacher,
+						"c_exam": this.formValidate.glsj,
+						"c_course": this.formValidate.glwj,
+						"c_duration": this.formValidate.contime, // 培训时长
+						"c_user": this.formValidate.person
+					}
+				}).then((res) => {
+					this.$Message.info('新增成功');
+					this.$router.push({
+						name: 'form',
+					});
+				}).catch(function(err) {
+					this.$Message.error('新增失败');
+				})
+			},
 			handleReset(name) {
 				this.$refs[name].resetFields();
+			},
+			//获取培训列表
+			getpxlist() {
+				this.$axios({
+					url: '/api/studyLibrary/queryLibrary',
+					method: 'post',
+					data: {
+
+					}
+				}).then((res) => {
+					this.wjlist = res.data.Content
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			uniqueArr(arr, key) { 
+				let hash = {}; 
+				return arr.reduce((newArr, item, index, arr) => {  
+					hash[item[key]] ? '' : hash[item[key]] = true && newArr.push(item);  
+					return newArr; 
+				}, [])
+			},
+
+			//获取试题列表
+			getsjlist() {
+				this.$axios({
+					url: '/api/examLibrary/queryLibrary',
+					method: 'post',
+					data: {
+
+					}
+				}).then((res) => {
+					//					this.sjlist = res.data.Content;
+					let newarr = this.uniqueArr(res.data.Content, 'source_name')
+					this.sjlist = newarr;
+					console.log(newarr)
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
+			//			获取人员
+			getuserList() {
+				this.$axios({
+					url: '/api/restDeptService/queryDeptPositionPersonTree',
+					method: 'post',
+					data: {
+						projectId: 'Pj3310030001',
+						user_id: '324'
+					}
+				}).then((res) => {}).catch(function(err) {
+					console.log(err);
+				})
 			}
 		},
 		mounted() {
-
+			this.getpxlist();
+			this.getsjlist();
+			//			this.getuserList()
 		}
 	};
 </script>

@@ -12,7 +12,7 @@
 		<div v-show="showmp4" style="height: 100%;">
 			<div style="float: left;width: 60%;">
 				<h2 style="text-align: center;margin-top: 20px 0 20px 0;">{{c_title}}</h2>
-				<video width="100%" ref='video' id="video1" controls="controls" @ended="myFunction()">
+				<video width="100%" controls="controls" ref='video' id="video1" @ended="myFunction()">
 
 				</video>
 			</div>
@@ -41,10 +41,18 @@
 				videoTime: 0,
 				hasTime: 0,
 				c_title: '',
-				modal1: true,
+				modal1: false,
+				timeDisplay:''
 			};
 		},
 		methods: {
+			goback(){
+				 this.$store.commit('removeTag', 'startlearn');
+                this.$store.commit('closePage', 'startlearn');
+                this.$router.push({
+					name: 'form',
+				});
+			},
 			ok() {
 				this.$router.push({
 					name: 'pinjia',
@@ -54,6 +62,20 @@
 					}
 				});
 			},
+			countTime() {
+				this.$axios({
+					url: '/api/train/update',
+					method: 'post',
+					data: {
+						"c_id": this.id, // 培训人员id
+						"c_use_duration": 1, //时长
+					}
+				}).then((res) => {
+					this.data1 = res.data.Content
+				}).catch(function(err) {
+					console.log(err);
+				})
+			},
 			cancel() {
 
 			},
@@ -61,7 +83,6 @@
 				this.showpj = true;
 				this.modal1 = true;
 			},
-			//评价页面
 			playMedia(val) {       //设置结束时间
 				var that = this;
 				var video = document.getElementById("video1");  
@@ -69,12 +90,32 @@
 				if(val == 1) {
 					video.currentTime = 0;  
 				} else {
-					video.currentTime = 700;  
+					video.currentTime =this.hasTime;  
 				}
 				that.videoTime = Math.floor(video.duration);
+				video.addEventListener("timeupdate", function() {
+					//用秒数来显示当前播放进度
+					var timeDisplay = Math.floor(video.currentTime);
+					console.log(timeDisplay)
+					that.updataTime(timeDisplay)
+				}, false);
 			},
 			handleSubmit() {
 
+			},
+			updataTime(val){
+				this.$axios({
+					url: '/api/train/update',
+					method: 'post',
+					data: {
+						"c_id": this.id, // 培训人员id
+						"c_use_duration": val, //时长
+					}
+				}).then((res) => {
+					console.log('success')
+				}).catch(function(err) {
+					console.log(err);
+				})
 			},
 			countTime() {
 				var _this = this;
@@ -94,7 +135,6 @@
 					_this.times = hour + "时" + minute + "分" + second + "秒";
 				}, 1000)
 			},
-			//			parse(){}
 		},
 		mounted() {
 			this.countTime();
@@ -102,10 +142,9 @@
 			this.hasTime = this.$route.query.time;
 			this.c_title = this.$route.query.c_title;
 			this.id = this.$route.query.id;
-			console.log(this.geturl.includes('.mp4'))
 			if(this.geturl.includes('.mp4')) {
 				this.showmp4 = true;
-				this.$refs.video.src = "http://192.168.100.222:9910/api/upload/fms/15665498368086302510452.mp4";
+				this.$refs.video.src = "http://192.168.100.222:9910/api/upload/fms/" + this.geturl;
 			} else {
 				this.showppt = true
 			}

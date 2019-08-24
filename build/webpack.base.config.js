@@ -86,4 +86,13 @@ module.exports = {
             '@': resolve('../src'),
         }
     },
+      devServer: {
+        proxy: {
+            '/api': {
+                target: 'http://47.93.132.7:9000/online-study', //后台服务器的ip地址
+                pathRewrite: { '^/api': '/' },
+                changeOrigin: true
+            }
+        }
+    }
 };
