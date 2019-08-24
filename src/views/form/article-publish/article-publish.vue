@@ -153,9 +153,9 @@
 					url: '/api/train/list',
 					method: 'post',
 					data: {
-						"person_id": "", // 培训人员id
+						"person_id": "RY9cbc786de1754b90a9ab915be30764dc", // 培训人员id
 						"pageno": 1,
-						"pagesize": 10,
+						"pagesize": 50,
 					}
 				}).then((res) => {
 					this.data1 = res.data.Content

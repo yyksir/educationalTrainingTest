@@ -63,9 +63,7 @@ export const otherRouter = {
         { path: 'addVideoAndppt', title: '添加视频ppt', name: 'addvideo', component: () => import('@/views/resourcelibrary/addVideoAndppt.vue') },
         { path: 'addTopic', title: '个人中心', name: 'addItem', component: () => import('@/views/resourcelibrary/addTopic.vue') },
         { path: 'testList', title: '考试列表', name: 'testList', component: () => import('@/views/test/goTest.vue') }, 
-        { path: 'testCertification', title: '考试认证', name: 'testCertification', component: () => import('@/views/test/testCertification.vue') }, 
-//      { path: 'shopping', title: '购物详情', name: 'shopping', component: () => import('@/views/advanced-router/component/shopping-info.vue') }, // 用于展示带参路由
-//      { path: 'message', title: '消息中心', name: 'message_index', component: () => import('@/views/message/message.vue') }
+        { path: 'testCertification', title: '考试认证', name: 'testCertification', component: () => import('@/views/test/testCertification.vue') }
     ]
 };
 

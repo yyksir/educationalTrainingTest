@@ -36,7 +36,7 @@
                     <i-button type="primary" v-show="tabKey==2" @click="handleGoTest(item)">
                             重新考试
                     </i-button>
-                    <i-button type="primary" v-show="tabKey==2">
+                    <i-button type="primary" v-show="tabKey==2" @click="handleFoCe(item)">
                             查看认证
                     </i-button>
                 </div>
@@ -123,7 +123,7 @@ export default {
                 url: '/api/examManager/queryAuthListByUserId',
                 method: 'post',
                 data: {
-                    person_id:"1",                              //人员id，必须
+                    person_id:"RY9cbc786de1754b90a9ab915be30764dc",                              //人员id，必须
                     user_id:"",                                  //账号id-当前登录人的账号id，必须  
                     flag:"0",                                     //0-培训完成,1-进行中
                     search_name:this.listSearch,                               //输入的搜索名称
@@ -140,6 +140,12 @@ export default {
         handleGoTest(item) {
             this.$router.push({
                 name: "testList",
+                query: { order: JSON.stringify(item)}
+            });
+        },
+        handleFoCe(item) {
+            this.$router.push({
+                name: "testCertification",
                 query: { order: JSON.stringify(item)}
             });
         }

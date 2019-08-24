@@ -81,7 +81,7 @@ export default {
             }
             let data = {
                 user_id:"1",
-                person_id:'1',
+                person_id:'RY9cbc786de1754b90a9ab915be30764dc',
                 stu_name:this.name||"23",
                 stu_subject:this.label||"23",
                 stu_type:this.classification||"23",

@@ -58,7 +58,7 @@ export default {
                 url: '/api/examManager/startExam',
                 method: 'post',
                 data: {
-                    person_id:"1",                              //人员id，必须
+                    person_id:"RY9cbc786de1754b90a9ab915be30764dc",                              //人员id，必须
                     user_id:"", 
                     source_name:this.order.c_exam                                 //账号id-当前登录人的账号id，必须  
                 }
