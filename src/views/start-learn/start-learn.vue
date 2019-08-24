@@ -12,7 +12,7 @@
 		<div v-show="showmp4" style="height: 100%;">
 			<div style="float: left;width: 60%;">
 				<h2 style="text-align: center;margin-top: 20px 0 20px 0;">{{c_title}}</h2>
-				<video width="100%" controls="controls" ref='video' id="video1" @ended="myFunction()">
+				<video width="100%" ref='video' id="video1" @ended="myFunction()">
 
 				</video>
 			</div>
@@ -96,7 +96,6 @@
 				video.addEventListener("timeupdate", function() {
 					//用秒数来显示当前播放进度
 					var timeDisplay = Math.floor(video.currentTime);
-					console.log(timeDisplay)
 					that.updataTime(timeDisplay)
 				}, false);
 			},
