@@ -14,7 +14,6 @@
 			<Input class="wid300" v-model="value5" type="textarea" placeholder="您的评价使我们更加完美" />
 		</div>
 		<p class="tec">
-			<Button class="wid100" type="success" @click="goks()">评价并进入考试</Button>
 			<Button class="wid100" type="success" @click="goback()">提交评价</Button>
 		</p>
 		<Modal v-model="modal1" title="提示" @on-ok="ok">
@@ -42,7 +41,9 @@
 				this.$router.push({
 					name: "testList",
 					query: {
-						order: JSON.stringify(item)
+						order: JSON.stringify({
+							
+						})
 					}
 				});
 			},
