@@ -152,7 +152,7 @@
 					url: '/api/train/list',
 					method: 'post',
 					data: {
-						"person_id": "1", // 培训人员id
+						"person_id": "", // 培训人员id
 						"pageno": 1,
 						"pagesize": 5,
 						"pageno": this.mypage.row_start_number,

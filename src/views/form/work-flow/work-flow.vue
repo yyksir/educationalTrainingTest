@@ -179,6 +179,9 @@
 		},
 		methods: {
 			handleSubmit(name) {
+				var a = new Date(this.formValidate.date)
+//				var date_value=a.getFullYear() +''+  (a.getMonth() + 1)+ ''+  a.getDate()  +''+  a.getHours() +''+  a.getMinutes() +''+  a.getSeconds();
+//console.log(date_value)
 				this.$refs[name].validate((valid) => {
 					if(valid) {
 						this.addLearn()
@@ -200,7 +203,7 @@
 						"c_lecturer": this.formValidate.teacher,
 						"c_exam": this.formValidate.glsj,
 						"c_course": this.formValidate.glwj,
-						"c_duration": this.formValidate.contime, // 培训时长
+						"c_duration": Number(this.formValidate.contime), // 培训时长
 						"c_user": this.formValidate.person
 					}
 				}).then((res) => {
