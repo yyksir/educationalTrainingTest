@@ -193,11 +193,11 @@ export default {
                         ovj.sendTime=element.create_time||"201908.24",
                         ovj.fileLabel=element.source_file||'视频',
                         ovj.videoName=element.source_file||'视频',
-                        ovj.bigClass=element.stu_name||"11",
-                        ovj.BrowseNumber='11'||"11",
-                        ovj.studyNumber='111'||"11",
-                        ovj.ratenuber=element.stu_level||"11",
-                        ovj.score='60',
+                        ovj.bigClass=element.stu_name||"0",
+                        ovj.BrowseNumber='0',
+                        ovj.studyNumber='0',
+                        ovj.ratenuber=element.stu_level||"0",
+                        ovj.score='0',
                        this.data1.push(ovj);
                     });
                     console.log(res)
