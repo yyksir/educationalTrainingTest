@@ -141,8 +141,9 @@
 					query: {
 						id: val.c_id,
 						url: val.source_file,
-						time: val.c_person_no,
-						c_title: val.c_title
+						time: val.c_use_duration,
+						c_title: val.c_title,
+						c_duration:val.c_duration
 					}
 				});
 			},
@@ -154,9 +155,7 @@
 					data: {
 						"person_id": "", // 培训人员id
 						"pageno": 1,
-						"pagesize": 5,
-						"pageno": this.mypage.row_start_number,
-						"pagesize": this.mypage.pageSN
+						"pagesize": 10,
 					}
 				}).then((res) => {
 					this.data1 = res.data.Content

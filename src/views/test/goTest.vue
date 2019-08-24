@@ -9,7 +9,7 @@
     <div class="goTestContent">
         <div v-for="(item,index) in totalList" :key="index" class="congtentItem" @click="handleSureIndex(item,index)">
             <div class="itemTitle">
-                {{item.exam_name}} ({{item.answer_type}})   
+                {{item.exam_name}}
             </div>
             <div>
                 <Radio-group v-model="item.analysis_answer" @on-change="changeaRdio">

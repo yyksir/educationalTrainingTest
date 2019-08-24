@@ -12,7 +12,7 @@
 		<div v-show="showmp4" style="height: 100%;">
 			<div style="float: left;width: 60%;">
 				<h2 style="text-align: center;margin-top: 20px 0 20px 0;">{{c_title}}</h2>
-				<video width="100%" ref='video' id="video1" @ended="myFunction()">
+				<video width="100%" controls="controls" ref='video' id="video1">
 
 				</video>
 			</div>
@@ -42,18 +42,21 @@
 				hasTime: 0,
 				c_title: '',
 				modal1: false,
-				timeDisplay:''
+				timeDisplay:'',
+				c_duration:0
 			};
 		},
 		methods: {
 			goback(){
-				 this.$store.commit('removeTag', 'startlearn');
+				this.$store.commit('removeTag', 'startlearn');
                 this.$store.commit('closePage', 'startlearn');
                 this.$router.push({
 					name: 'form',
 				});
 			},
 			ok() {
+				this.modal1 = false;
+				this.updataTime(this.c_duration+100)
 				this.$router.push({
 					name: 'pinjia',
 					query: {
@@ -96,7 +99,12 @@
 				video.addEventListener("timeupdate", function() {
 					//用秒数来显示当前播放进度
 					var timeDisplay = Math.floor(video.currentTime);
-					that.updataTime(timeDisplay)
+					if(timeDisplay > that.c_duration){
+						that.myFunction()
+					}else{
+						that.updataTime(timeDisplay)
+					}
+					
 				}, false);
 			},
 			handleSubmit() {
@@ -140,10 +148,11 @@
 			this.geturl = this.$route.query.url;
 			this.hasTime = this.$route.query.time;
 			this.c_title = this.$route.query.c_title;
+			this.c_duration = this.$route.query.c_duration;
 			this.id = this.$route.query.id;
 			if(this.geturl.includes('.mp4')) {
 				this.showmp4 = true;
-				this.$refs.video.src = "http://192.168.100.222:9910/api/upload/fms/" + this.geturl;
+				this.$refs.video.src = "http://192.168.100.222:9910/api/" + this.geturl;
 			} else {
 				this.showppt = true
 			}

@@ -104,7 +104,7 @@ export default {
                 url: '/api/examManager/queryExamListByUserId',
                 method: 'post',
                 data: {
-                    person_id:"1",                              //人员id，必须
+                    person_id:"RY9cbc786de1754b90a9ab915be30764dc",                              //人员id，必须
                     user_id:"",                                  //账号id-当前登录人的账号id，必须  
                     flag:this.tabKey,                                     //0-培训完成,1-进行中
                     search_name:this.listSearch,                               //输入的搜索名称
